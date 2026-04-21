@@ -4,6 +4,12 @@ ScheduLogic is an interactive web-based simulator that helps visualize and under
 
 ---
 
+## 🌐 Live Demo
+
+👉 https://anand-kumar-upadhyay.github.io/ScheduLogic-CPU-Scheduler/
+
+---
+
 ## 🚀 Features
 
 * 📊 Supports multiple scheduling algorithms:
@@ -36,18 +42,12 @@ ScheduLogic is an interactive web-based simulator that helps visualize and under
 
 ---
 
-## 📸 Screenshots
-
-*Add screenshots here (Gantt chart, simulator UI, etc.)*
-
----
-
 ## ⚙️ How to Run the Project
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/ScheduLogic-CPU-Scheduler.git
+git clone https://github.com/anand-kumar-upadhyay/ScheduLogic-CPU-Scheduler.git
 ```
 
 2. Open the project folder
@@ -105,21 +105,3 @@ git clone https://github.com/your-username/ScheduLogic-CPU-Scheduler.git
 * Save/export results
 * Dark mode
 * Improved animations
-
----
-
-## 👨‍💻 Author
-
-Your Name
-
----
-
-## ⭐ Contribute
-
-Feel free to fork this repository and improve the project.
-
----
-
-## 📜 License
-
-This project is open-source and available under the MIT License.
