@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ScheduLogic — Learn about CPU scheduling algorithms: FCFS, SJF, SRTF, Round Robin, and Priority Scheduling.">
+  <title>About | ScheduLogic</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* About-page specific styles */
+    .about-hero {
+      text-align: center;
+      padding: 60px 20px 10px;
+    }
+    .about-hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2) 70%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .about-hero p {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* How it works steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .step-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 26px 22px;
+      text-align: center;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .step-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.08);
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800;
+      margin: 0 auto 14px;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+    .step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .step-card p  { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* Algorithm cards */
+    .algo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .algo-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 26px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+    .algo-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .algo-card-accent {
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      border-radius: 16px 0 0 16px;
+    }
+    .algo-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .algo-icon { font-size: 28px; }
+    .algo-card h3 { font-size: 17px; font-weight: 700; }
+    .algo-card .algo-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .tag-np { background: rgba(0, 210, 255, 0.15); color: var(--accent2); }
+    .tag-p  { background: rgba(255, 0, 127, 0.15); color: var(--accent); }
+    .algo-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+    /* Complexity Table */
+    .complexity-table th { color: var(--accent2) !important; }
+    .complexity-table td:first-child { font-weight: 600; color: var(--text-main); }
+    .tag-best  { color: #4ade80; font-weight: 700; }
+    .tag-mid   { color: #facc15; font-weight: 600; }
+    .tag-worst { color: #f87171; font-weight: 600; }
+
+    /* About section */
+    .about-section { margin-bottom: 32px; }
+    .about-section-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .divider {
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+      margin-left: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .steps-grid { grid-template-columns: 1fr; }
+      .algo-grid  { grid-template-columns: 1fr; }
+      .about-hero h1 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="6" width="20" height="8" rx="1"></rect>
+        <path d="M17 14v7M7 14v7M17 3v3M7 3v3M10 14v7M14 14v7M10 3v3M14 3v3"></path>
+      </svg>
+      ScheduLogic
+    </div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="simulator.html">Simulator</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="main-container">
+
+    <!-- Hero -->
+    <div class="about-hero">
+      <h1>CPU Scheduling Algorithms</h1>
+      <p>A comprehensive reference for how operating systems manage process execution — from the simplest FCFS to nuanced preemptive policies.</p>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="glass-panel about-section" style="margin-top: 36px;">
+      <div class="about-section-title">
+        🚀 How to Use ScheduLogic <span class="divider"></span>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Choose an Algorithm</h3>
+          <p>Select from FCFS, SJF, SRTF, Round Robin, or Priority Scheduling using the dropdown on the Simulator page.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>Input Your Processes</h3>
+          <p>Add processes with Arrival Time, Burst Time, and — where required — Priority values or a Time Quantum.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Run & Analyze</h3>
+          <p>Click Run Simulation to see Waiting Time, Turnaround Time, and a live Gantt chart. Use Step Mode to replay execution block by block.</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ALGORITHM CARDS -->
+    <div class="glass-panel about-section">
+      <div class="about-section-title">
+        🧠 Algorithms Explained <span class="divider"></span>
+      </div>
+      <div class="algo-grid">
+
+        <div class="algo-card">
+          <div class="algo-card-accent" style="background: #20A4F3;"></div>
+          <div class="algo-card-header">
+            <span class="algo-icon">📥</span>
+            <div>
+              <h3>First Come First Serve (FCFS)</h3>
+              <span class="algo-tag tag-np">Non-Preemptive</span>
+            </div>
+          </div>
+          <p>Processes execute in the exact order they arrive in the ready queue.</p>
+        </div>
+
+        <div class="algo-card">
+          <div class="algo-card-accent" style="background: #2EC4B6;"></div>
+          <div class="algo-card-header">
+            <span class="algo-icon">⚡</span>
+            <div>
+              <h3>Shortest Job First (SJF)</h3>
+              <span class="algo-tag tag-np">Non-Preemptive</span>
+            </div>
+          </div>
+          <p>The arrived process with the shortest burst time is selected to run next.</p>
+        </div>
+
+        <div class="algo-card">
+          <div class="algo-card-accent" style="background: #FF3366;"></div>
+          <div class="algo-card-header">
+            <span class="algo-icon">🔄</span>
+            <div>
+              <h3>Shortest Remaining Time First (SRTF)</h3>
+              <span class="algo-tag tag-p">Preemptive</span>
+            </div>
+          </div>
+          <p>The running process is preempted if a newly arrived process has a shorter burst time than the remaining burst time.</p>
+        </div>
+
+        <div class="algo-card">
+          <div class="algo-card-accent" style="background: #FF9F1C;"></div>
+          <div class="algo-card-header">
+            <span class="algo-icon">🔁</span>
+            <div>
+              <h3>Round Robin (RR)</h3>
+              <span class="algo-tag tag-p">Preemptive</span>
+            </div>
+          </div>
+          <p>Each process receives a fixed time quantum. If it doesn't finish within that time, it is moved to the end of the queue.</p>
+        </div>
+
+        <div class="algo-card">
+          <div class="algo-card-accent" style="background: #9D4EDD;"></div>
+          <div class="algo-card-header">
+            <span class="algo-icon">🥇</span>
+            <div>
+              <h3>Priority Scheduling (Non-Preemptive)</h3>
+              <span class="algo-tag tag-np">Non-Preemptive</span>
+            </div>
+          </div>
+          <p>Each process is assigned a priority number. The highest-priority available process runs to completion.</p>
+        </div>
+
+        <div class="algo-card">
+          <div class="algo-card-accent" style="background: #F72585;"></div>
+          <div class="algo-card-header">
+            <span class="algo-icon">🚨</span>
+            <div>
+              <h3>Priority Scheduling (Preemptive)</h3>
+              <span class="algo-tag tag-p">Preemptive</span>
+            </div>
+          </div>
+          <p>Like priority scheduling, but the CPU can be immediately preempted when a higher-priority process arrives.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <div class="glass-panel about-section">
+      <div class="about-section-title">
+        📊 Quick Comparison <span class="divider"></span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="complexity-table">
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>Type</th>
+              <th>Avg Waiting Time</th>
+              <th>Starvation Risk</th>
+              <th>Best Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>FCFS</td>
+              <td>Non-Preemptive</td>
+              <td class="tag-worst">High</td>
+              <td class="tag-best">None</td>
+              <td>Simple batch systems</td>
+            </tr>
+            <tr>
+              <td>SJF</td>
+              <td>Non-Preemptive</td>
+              <td class="tag-mid">Low–Medium</td>
+              <td class="tag-mid">Possible</td>
+              <td>Known burst-time environments</td>
+            </tr>
+            <tr>
+              <td>SRTF</td>
+              <td>Preemptive</td>
+              <td class="tag-best">Minimum</td>
+              <td class="tag-mid">Possible</td>
+              <td>Optimal performance scenarios</td>
+            </tr>
+            <tr>
+              <td>Round Robin</td>
+              <td>Preemptive</td>
+              <td class="tag-mid">Medium</td>
+              <td class="tag-best">None</td>
+              <td>Time-sharing &amp; interactive systems</td>
+            </tr>
+            <tr>
+              <td>Priority (NP)</td>
+              <td>Non-Preemptive</td>
+              <td class="tag-mid">Medium</td>
+              <td class="tag-worst">High</td>
+              <td>Task-prioritized batch systems</td>
+            </tr>
+            <tr>
+              <td>Priority (P)</td>
+              <td>Preemptive</td>
+              <td class="tag-mid">Low–Medium</td>
+              <td class="tag-worst">High</td>
+              <td>Real-time &amp; embedded systems</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center; padding: 20px 0 40px;">
+      <a href="simulator.html" class="btn-primary btn-hero">Open the Simulator →</a>
+    </div>
+
+  </div><!-- end main-container -->
+
+</body>
+</html>
