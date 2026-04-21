@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulator | ScheduLogic</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="6" width="20" height="8" rx="1"></rect>
+        <path d="M17 14v7M7 14v7M17 3v3M7 3v3M10 14v7M14 14v7M10 3v3M14 3v3"></path>
+      </svg>
+      ScheduLogic
+    </div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="simulator.html" class="active">Simulator</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="main-container">
+
+    <!-- Header -->
+    <div class="header-row">
+      <div>
+        <h1 id="simTitle">CPU Scheduling Simulator</h1>
+        <p class="subtitle" id="simSubtitle">Select an algorithm and configure your processes below.</p>
+      </div>
+      <button class="btn-secondary" onclick="window.location.href='index.html'">⬅ Back</button>
+    </div>
+
+    <!-- Algorithm Config Panel -->
+    <div class="glass-panel">
+      <div class="algo-config-row">
+        <div class="algo-select-group">
+          <label for="algoSelect">Algorithm</label>
+          <select id="algoSelect" onchange="onAlgorithmChange()">
+            <option value="fcfs">First Come First Serve (FCFS)</option>
+            <option value="sjf">Shortest Job First — Non-Preemptive (SJF)</option>
+            <option value="srtf">Shortest Remaining Time First — Preemptive (SRTF)</option>
+            <option value="rr">Round Robin (RR)</option>
+            <option value="priority_np">Priority Scheduling — Non-Preemptive</option>
+            <option value="priority_p">Priority Scheduling — Preemptive</option>
+          </select>
+        </div>
+        <div class="quantum-group hidden" id="quantumGroup">
+          <label for="quantumInput">Time Quantum</label>
+          <input type="number" id="quantumInput" min="1" value="2">
+        </div>
+      </div>
+    </div>
+
+    <!-- Process Input Panel -->
+    <div class="glass-panel">
+      <div class="controls">
+        <button class="btn-primary" onclick="addProcessRow()">+ Add Process</button>
+        <button class="btn-run" onclick="runSimulation()">▶ Run Simulation</button>
+        <button class="btn-secondary" onclick="resetAll()">↺ Reset</button>
+        <button class="btn-compare" onclick="compareAllAlgorithms()">⚖️ Compare All Algorithms</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table id="processTable">
+          <thead>
+            <tr>
+              <th>Process ID</th>
+              <th>Arrival Time</th>
+              <th>Burst Time</th>
+              <th id="priorityHeader" class="hidden">Priority <span class="hint">(lower = higher)</span></th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="processBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         RESULTS SECTION
+    ══════════════════════════════════════════════════════ -->
+    <div id="resultsSection" class="hidden">
+
+      <!-- Metrics + Table -->
+      <div class="glass-panel">
+        <h2 class="section-title">📊 Simulation Results</h2>
+        <div class="metrics-box">
+          <div class="metric"><p>Avg Waiting Time</p><h3 id="avgWt">—</h3></div>
+          <div class="metric"><p>Avg Turnaround Time</p><h3 id="avgTat">—</h3></div>
+          <div class="metric"><p>CPU Utilization</p><h3 id="cpuUtil">—</h3></div>
+          <div class="metric"><p>Total Time</p><h3 id="totalTime">—</h3></div>
+        </div>
+        <div id="outputTableContainer">
+          <table>
+            <thead>
+              <tr>
+                <th>Process</th><th>Arrival</th><th>Burst</th>
+                <th>Completion</th><th>Turnaround Time</th><th>Waiting Time</th>
+              </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Gantt Chart Panel -->
+      <div class="glass-panel">
+        <h2 class="section-title">🗂 Gantt Chart</h2>
+
+        <div class="gantt-chart-container">
+          <div id="ganttChart"></div>
+          <div id="timeline"></div>
+        </div>
+
+        <!-- ── STEP SIMULATION CONTROLS ── -->
+        <div id="stepControls" class="step-controls hidden">
+          <div class="step-header">
+            <span class="step-label">⏱ Step Simulation</span>
+            <span id="stepInfo" class="step-info">—</span>
+          </div>
+
+          <div class="step-buttons">
+            <button class="step-btn" onclick="rewindSimulation()" title="Rewind">⏮</button>
+            <button class="step-btn" id="stepBack" onclick="stepBack()" disabled title="Step Back">◀</button>
+            <button class="step-btn step-play" id="playBtn" onclick="playSimulation()">▶ Play</button>
+            <button class="step-btn" id="stepFwd" onclick="stepForward()" title="Step Forward">▶▶</button>
+          </div>
+
+          <div class="step-scrub-row">
+            <input type="range" id="stepProgress" class="step-scrubber" min="1" value="1" oninput="onStepScrub()">
+          </div>
+
+          <div class="step-speed-row">
+            <span class="speed-label">Speed:</span>
+            <span class="speed-val">Slow</span>
+            <input type="range" id="stepSpeed" class="speed-slider" min="1" max="5" value="3">
+            <span class="speed-val">Fast</span>
+          </div>
+        </div>
+
+      </div><!-- end Gantt Panel -->
+
+    </div><!-- end resultsSection -->
+
+    <!-- ══════════════════════════════════════════════════════
+         COMPARISON SECTION
+    ══════════════════════════════════════════════════════ -->
+    <div id="comparisonSection" class="hidden">
+
+      <!-- Comparison Table -->
+      <div class="glass-panel">
+        <h2 class="section-title">⚖️ Algorithm Comparison</h2>
+        <p class="subtitle" style="margin-bottom:20px;">All algorithms run on the same process inputs. 🏆 marks the best value per column.</p>
+        <div style="overflow-x:auto;">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Algorithm</th>
+                <th>Avg Waiting Time ↓</th>
+                <th>Avg Turnaround Time ↓</th>
+                <th>CPU Utilization ↑</th>
+                <th>Total Time ↓</th>
+              </tr>
+            </thead>
+            <tbody id="comparisonTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Best Algorithm Card -->
+      <div class="glass-panel best-algo-card">
+        <div class="best-algo-header">
+          <span class="trophy-icon">🏆</span>
+          <div>
+            <p class="best-algo-sub">Best Algorithm for Your Input</p>
+            <h2 id="bestAlgoName" class="best-algo-name">—</h2>
+          </div>
+        </div>
+        <p id="bestAlgoReason" class="best-algo-reason">—</p>
+        <p id="bestAlgoTradeoff" class="best-algo-tradeoff"></p>
+        <div class="best-algo-stats-bar">
+          <span id="bestAlgoStats" class="best-algo-stats">—</span>
+        </div>
+      </div>
+
+    </div><!-- end comparisonSection -->
+
+  </div><!-- end main-container -->
+  <script src="script.js"></script>
+</body>
+</html>
